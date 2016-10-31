@@ -11,3 +11,17 @@ For the time being it only supports JSON callbacks from vRealize. No plans to im
 # Service modules
 
 To proxy the alert to a service a module is required, as of writing only Monitorscout is supported.
+
+# Install
+
+Disable plugins in plugins.cfg by commenting out their line.
+
+## Plugins
+
+Plugins must be installed into path to be discovered.
+
+	$ python setup.py install
+
+# Run server
+
+	$ python app.py
