@@ -7,19 +7,7 @@ class MonitorscoutPlugin(object):
     def __init__(self, config, logging, **kw):
         self.l = logging
         self.config = config
-
-        request = kw['request']
-
-        body = request.body
-        try:
-            jbody = json.load(body)
-        except Exception as e:
-            self.l.exception('Caught exception parsing json: {error}'.format(
-                error=str(e)
-            ))
-
-        self.jbody = jbody
-        self.request = request
+        alert = kw.get('alert')
 
         self.headers = {
             'X-Auth-API-Key': config.get(self.plugin_name, 'api_key'),
@@ -33,13 +21,13 @@ class MonitorscoutPlugin(object):
         )
 
         alert_name = '{resourceName} {status}'.format(
-            resourceName=self.jbody.get('resourceName'),
-            status=self.jbody.get('status')
+            resourceName=alert.resourceName,
+            status=alert.status
         )
 
         alert_msg = '{startDate}: \n{info}'.format(
-            startDate=self.jbody.get('startDate'),
-            info=self.jbody.get('info')
+            startDate=alert.startDate,
+            info=alert.info
         )
 
         self.alert_data = {

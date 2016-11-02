@@ -14,31 +14,43 @@ class VRealizeAlert(object):
         content_type = kw.get('content_type', 'application/json')
 
         if content_type == 'application/json':
-            message_object = read_json(message)
+            message_data = self._read_json(message)
         elif content_type == 'application/xml':
             raise NotImplemented
         else:
             raise NotImplemented
         
-        self.startDate = message_object.get('startDate', None)
-        self.criticality = message_object.get('criticality', None)
-        self.resourceId = message_object.get('resourceId', None)
-        self.alertId = message_object.get('alertId', None)
-        self.status = message_object.get('status', None)
-        self.subType = message_object.get('subType', None)
-        self.cancelDate = message_object.get('cancelDate', None)
-        self.resourceKind = message_object.get('resourceKind', None)
-        self.adapterKind = message_object.get('adapterKind', None)
-        self.type = message_object.get('type', None)
-        self.resourceName = message_object.get('resourceName', None)
-        self.updateDate = message_object.get('updateDate', None)
-        self.info = message_object.get('info', None)
+        self.startDate = message_data.get('startDate', None)
+        self.criticality = message_data.get('criticality', None)
+        self.resourceId = message_data.get('resourceId', None)
+        self.alertId = message_data.get('alertId', None)
+        self.status = message_data.get('status', None)
+        self.subType = message_data.get('subType', None)
+        self.cancelDate = message_data.get('cancelDate', None)
+        self.resourceKind = message_data.get('resourceKind', None)
+        self.adapterKind = message_data.get('adapterKind', None)
+        self.type = message_data.get('type', None)
+        self.resourceName = message_data.get('resourceName', None)
+        self.updateDate = message_data.get('updateDate', None)
+        self.info = message_data.get('info', None)
+
+        self.message = message_data
 
 
-    def read_json(self, message):
+    def _read_json(self, message):
         return json.load(message)
 
 
     # TODO:
-    def read_xml(self, message):
+    def _read_xml(self, message):
         return False
+
+
+    @property
+    def message_data(self):
+        return self.message
+
+
+    @property
+    def message_json(self):
+        return json.dumps(self.message)

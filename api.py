@@ -16,6 +16,7 @@ from bottle import default_app, route, run, hook
 from bottle import request, response, template, static_file
 
 from logger import Logger
+from vrealize import VRealizeAlert
 
 
 # Read configuration
@@ -39,6 +40,16 @@ def index():
         data=str(request.body)
     ))
 
+    # Process alert data
+    try:
+        alert = VRealizeAlert(request.body, content_type=request.content_type)
+    except Exception as e:
+        log.info(request.content_type)
+        log.exception('Failed to load vrealize alert data: {error}'.format(
+            error=str(e)
+        ))
+        raise
+
     # Launch plugins
     for entrypoint in pkg_resources.iter_entry_points('api.plugins'):
         log.debug('Loading plugin "{plugin}"'.format(
@@ -54,7 +65,7 @@ def index():
             inst = plugin_class(
                 config,
                 log,
-                request=request
+                alert=alert
             )
         except Exception as e:
             log.exception('Exception while loading "{plugin}": {error}'.format(
