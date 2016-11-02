@@ -8,7 +8,7 @@ try:
 except ImportError:
     from ConfigParser import RawConfigParser
 
-from bottle import default_app, run, Bottle
+from bottle import Bottle
 from bottle import request, response, template, static_file
 
 from logger import Logger
@@ -116,4 +116,4 @@ if __name__ == '__main__':
     )
     debug(config.getbool('api', 'debug'))
 else:
-    application = app.default_app()
+    application = app
