@@ -31,8 +31,8 @@ def uuid_filter(config):
 
 # Read configuration
 config = RawConfigParser()
-config.readfp(open('./api.cfg'))
-config.read(['api_local.cfg', '/etc/vrealize-alerts/api.cfg'])
+config.readfp(open('defaults.cfg'))
+config.read(['site_local.cfg', '/etc/vrealize-alerts/site_local.cfg'])
 
 # Setup logging, and a shorthand for future log messages
 log = Logger(config)
