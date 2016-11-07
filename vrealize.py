@@ -3,6 +3,7 @@
 # use the builtin lxml.etree.ElementTree parser.
 
 import json
+from time import strftime, gmtime
 
 class VRealizeAlert(object):
 
@@ -20,19 +21,19 @@ class VRealizeAlert(object):
         else:
             raise NotImplemented
         
-        self.startDate = message_data.get('startDate', None)
-        self.criticality = message_data.get('criticality', None)
-        self.resourceId = message_data.get('resourceId', None)
-        self.alertId = message_data.get('alertId', None)
-        self.status = message_data.get('status', None)
-        self.subType = message_data.get('subType', None)
-        self.cancelDate = message_data.get('cancelDate', None)
-        self.resourceKind = message_data.get('resourceKind', None)
-        self.adapterKind = message_data.get('adapterKind', None)
-        self.type = message_data.get('type', None)
-        self.resourceName = message_data.get('resourceName', None)
-        self.updateDate = message_data.get('updateDate', None)
-        self.info = message_data.get('info', None)
+        self._startDate = message_data.get('startDate', None)
+        self._criticality = message_data.get('criticality', None)
+        self._resourceId = message_data.get('resourceId', None)
+        self._alertId = message_data.get('alertId', None)
+        self._status = message_data.get('status', None)
+        self._subType = message_data.get('subType', None)
+        self._cancelDate = message_data.get('cancelDate', None)
+        self._resourceKind = message_data.get('resourceKind', None)
+        self._adapterKind = message_data.get('adapterKind', None)
+        self._type = message_data.get('type', None)
+        self._resourceName = message_data.get('resourceName', None)
+        self._updateDate = message_data.get('updateDate', None)
+        self._info = message_data.get('info', None)
 
         self.message = message_data
 
@@ -47,10 +48,31 @@ class VRealizeAlert(object):
 
 
     @property
-    def message_data(self):
+    def as_dict(self):
         return self.message
 
 
     @property
-    def message_json(self):
+    def as_json(self):
         return json.dumps(self.message)
+
+
+    @property
+    def startDate(self):
+        s, ms = divmod(self._startDate, 1000)
+        return strftime('%Y-%m-%d %H:%M:%S', gmtime(s))
+
+
+    @property
+    def info(self):
+        return self._info
+
+
+    @property
+    def status(self):
+        return self._status
+
+
+    @property
+    def resourceName(self):
+        return self._resourceName

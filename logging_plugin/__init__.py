@@ -12,5 +12,5 @@ class LoggingPlugin(object):
     def run(self):
         l = self.l
         l.info('Alert: {data}'.format(
-            data=self.alert.message_json
+            data=self.alert.as_json
         ))
